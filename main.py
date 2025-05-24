@@ -1,11 +1,20 @@
 from fastapi import FastAPI, Query
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 import json
 
 with open("dvf_nice_2023_2024.json", "r", encoding="utf-8") as f:
     ventes = json.load(f)
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/estimation")
 def estimation(adresse: str = Query(...), surface: float = Query(...)):
